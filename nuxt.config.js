@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+import config from './config.json'
+
 
 export default {
   server: {host:"0" },
@@ -68,5 +70,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  env: {
+//    COGNITO_APP_ID: config.cognitoAppId.value,
+    COGNITO_IDENTITY_POOL: config.cognitoIdentityPool.value,
+    COGNITO_USER_POOL: config.cognitoUserPool.value,
+    REGION: config.region.value
   }
 }

@@ -72,7 +72,7 @@ export default {
   build: {
   },
   env: {
-//    COGNITO_APP_ID: config.cognitoAppId.value,
+    COGNITO_APP_ID: config.cognitoAppId.value,
     COGNITO_IDENTITY_POOL: config.cognitoIdentityPool.value,
     COGNITO_USER_POOL: config.cognitoUserPool.value,
     REGION: config.region.value

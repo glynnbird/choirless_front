@@ -49,6 +49,9 @@ export default {
             // OPTIONAL - Amazon Cognito User Pool ID
             userPoolId: env.COGNITO_USER_POOL,
 
+             // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+            userPoolWebClientId: env.COGNITO_APP_ID,
+
             // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
             mandatorySignIn: true
 

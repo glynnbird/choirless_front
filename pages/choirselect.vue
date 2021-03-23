@@ -23,10 +23,10 @@ export default {
       AWS.config.update(credentials);
 
       // let's do some lambda to get the list of choirs
-      const lambda = new AWS.Lambda({ region: "eu-west-1" });
+      const lambda = new AWS.Lambda({ region: store.state.config.config.REGION });
       var payload = {userId:store.state.session.profile["cognito:username"]};
       var params = {
-        FunctionName: "getUserChoirs-stage",
+        FunctionName: store.state.config.config.LAMBDA_NAMES['getUserChoirs'],
         Payload: JSON.stringify(payload),
         InvocationType: "RequestResponse",
       }; 

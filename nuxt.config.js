@@ -49,6 +49,9 @@ export default {
   modules: [
   ],
 
+  router: {
+    middleware: ['loadConfigIfAbsent']
+  },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
@@ -75,6 +78,7 @@ export default {
     COGNITO_APP_ID: config.cognitoAppId.value,
     COGNITO_IDENTITY_POOL: config.cognitoIdentityPool.value,
     COGNITO_USER_POOL: config.cognitoUserPool.value,
-    REGION: config.region.value
+    REGION: config.region.value,
+    LAMBDA_NAMES: config.apiLambdaNames.value
   }
 }

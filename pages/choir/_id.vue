@@ -9,40 +9,40 @@
 
 <script>
 import AWS from "aws-sdk";
+import util from "~/assets/js/util"
 
 export default {
   async asyncData ({store, route}) {
     console.log(route.params.id)
 
     try {
-      if (store.state.cache.currentChoirSongs !== null) {
-        console.log("Getting data from cache!")
-        return {songList: store.state.cache.currentChoirSongs}
+      //first check that choir page we are on  matches  the cache
+      if (store.state.cache.currentChoir !== null && 
+          store.state.cache.currentChoir.choirId == route.params.id) {
+        if (store.state.cache.currentChoirSongs !== null) {
+          console.log("Getting data from cache!")
+          return {songList: store.state.cache.currentChoirSongs}
+        }
       }
 
+      // if we get here, then we need to load the choir and its songs
+
+      console.log("Getting choir details")
+     
+      let response = await util.executeLambda (store, "getChoir", {choirId:route.params.id})
+
+      //save the choirList to the cache
+      store.commit('cache/setCurrentChoir', response.choir)
  
       console.log("getting list of choir songs");
-      console.log(store.state.session.profile)
-      const credentials = store.state.session.credentials;
-      AWS.config.update(credentials);
 
       // let's do some lambda to get the list of choirs
-      const lambda = new AWS.Lambda({ region: store.state.config.config.REGION });
-      var payload = {choirId: route.params.id};
-      var params = {
-        FunctionName: store.state.config.config.LAMBDA_NAMES['getChoirSongs'],
-        Payload: JSON.stringify(payload),
-        InvocationType: "RequestResponse",
-      }; 
-      const response = await lambda.invoke(params).promise();
-      const responsePayload = JSON.parse(response.Payload);
-      console.log(responsePayload);
-      const body = JSON.parse(responsePayload.body)
-      console.log('body', body)
-      //save the choirList to the cache
-      store.commit('cache/setCurrentChoirSongs', body.songs)
+      response = await util.executeLambda (store, "getChoirSongs", {choirId:route.params.id})
+
+      //save the Songs to the cache
+      store.commit('cache/setCurrentChoirSongs', response.songs)
       
-      return { songList: body.songs }
+      return { songList: response.songs }
      
     } catch (error) {
       console.log("error getting list of songs", error);

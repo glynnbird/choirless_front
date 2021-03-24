@@ -9,6 +9,7 @@
 
 <script>
 import AWS from "aws-sdk";
+import util from "~/assets/js/util"
 
 export default {
   async asyncData ({store}) {
@@ -18,26 +19,12 @@ export default {
         return {choirList: store.state.cache.choirList}
       } 
       console.log("getting list of choirs");
-      console.log(store.state.session.profile)
-      const credentials = store.state.session.credentials;
-      AWS.config.update(credentials);
+      let response = await util.executeLambda (store, "getUserChoirs", {userId:store.state.session.profile["cognito:username"]})
 
-      // let's do some lambda to get the list of choirs
-      const lambda = new AWS.Lambda({ region: store.state.config.config.REGION });
-      var payload = {userId:store.state.session.profile["cognito:username"]};
-      var params = {
-        FunctionName: store.state.config.config.LAMBDA_NAMES['getUserChoirs'],
-        Payload: JSON.stringify(payload),
-        InvocationType: "RequestResponse",
-      }; 
-      const response = await lambda.invoke(params).promise();
-      const responsePayload = JSON.parse(response.Payload);
-      console.log(responsePayload);
-      const body = JSON.parse(responsePayload.body)
       //save the choirList to the cache
-      store.commit('cache/writeChoirList', body.choirs)
+      store.commit('cache/writeChoirList', response.choirs)
       
-      return { choirList: body.choirs }
+      return { choirList: response.choirs }
     //} catch (error) {
     //  console.log("error getting list of choirs", error);
     //}

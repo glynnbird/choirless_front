@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-list-item two-line v-for="choir in choirList">
+    <v-list-item two-line v-for="choir in choirList" :key="choir.choirId">
       <v-list-item-title><NuxtLink v-bind:to="'choir/' + choir.choirId">{{ choir.choirId }}</NuxtLink> </v-list-item-title>
       <v-list-item-subtitle>{{ choir.description }} </v-list-item-subtitle>
     </v-list-item>

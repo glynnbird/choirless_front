@@ -50,7 +50,7 @@ export default {
   ],
 
   router: {
-    middleware: ['loadConfigIfAbsent']
+    middleware: ['checkSession','loadConfigIfAbsent']
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

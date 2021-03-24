@@ -1,7 +1,8 @@
 export const state = () => ({
   loggedIn: false,
   profile: null,
-  credentials: null
+  credentials: null,
+  requiredRoute: null
 })
 
 export const mutations = {
@@ -14,5 +15,8 @@ export const mutations = {
     state.profile = null
     state.credentials = null
     state.loggedIn = false
+  },
+  setRequiredRoute(state, route) {
+    state.requiredRoute = route
   }
 }

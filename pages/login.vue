@@ -90,8 +90,14 @@ export default {
         const response = await lambda.invoke(params).promise()
         console.log(response)
         
-        this.$router.push({name:'choirselect'})
-
+        if (this.$store.state.session.requiredRoute) {
+          const route = this.$store.state.session.requiredRoute
+          console.log('bouncing user to saved route', route)
+          this.$store.commit('session/setRequiredRoute', null)
+          this.$router.push(route)
+        } else {
+          this.$router.push({name:'choirselect'})
+        }
       } catch (error) {
         console.log('error signing in', error);
       }

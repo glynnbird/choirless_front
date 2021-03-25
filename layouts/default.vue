@@ -1,7 +1,7 @@
 <template>
    <v-app>
         <v-app-bar app class="indigo">
-          <v-toolbar-title >Choirless <span v-if="this.$store.state.session.loggedIn">{{ this.$store.state.session.profile.email }} </span></v-toolbar-title>
+          <v-toolbar-title ><span v-if="this.$store.state.session.loggedIn">{{ this.$store.state.session.profile.email }} </span></v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn v-if="this.$store.state.session.loggedIn" to="/logout" nuxt>Log Out
             <v-icon>mdi-logout</v-icon>
@@ -12,6 +12,7 @@
         </v-app-bar>
         <v-main>
           <v-container fluid>
+            <Breadcrumb />
             <Nuxt />
           </v-container>
         </v-main>

@@ -1,3 +1,5 @@
+import localstorage from "~/assets/js/localstorage"
+
 export const state = () => ({
   loggedIn: false,
   profile: null,
@@ -10,11 +12,13 @@ export const mutations = {
     state.profile = obj.profile
     state.credentials = obj.credentials
     state.loggedIn = true
+    localstorage.saveProfile(state)
   },
   logout(state) {
     state.profile = null
     state.credentials = null
     state.loggedIn = false
+    localstorage.clearProfile()
   },
   setRequiredRoute(state, route) {
     state.requiredRoute = route

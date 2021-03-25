@@ -13,6 +13,7 @@ import util from "~/assets/js/util"
 
 export default {
   async asyncData ({store, route}) {
+    console.log("choir route is", route)
     console.log(route.params.id)
 
     try {

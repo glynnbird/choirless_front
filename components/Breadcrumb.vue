@@ -16,7 +16,7 @@ export default {
         if (this.$store.state.cache.currentChoir !== null) {
           const choirId = this.$store.state.cache.currentChoir.choirId
           const name = this.$store.state.cache.currentChoir.name
-          arr.push({ to: `/choir/${choirId}`, text: name })
+          arr.push({ to: `/choir/${choirId}`, text: name, exact: true })
         }
 
         // if we know which song we're dealing with

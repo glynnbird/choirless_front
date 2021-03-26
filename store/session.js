@@ -18,7 +18,7 @@ export const mutations = {
     state.profile = null
     state.credentials = null
     state.loggedIn = false
-    localstorage.clearProfile()
+    localstorage.deleteProfile()
   },
   setRequiredRoute(state, route) {
     state.requiredRoute = route

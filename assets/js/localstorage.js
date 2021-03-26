@@ -7,7 +7,7 @@ const KEY = 'choirless_session'
 const localstorage = {
   loadProfile: function () {
     const str = myStorage.getItem(KEY)
-    console.log('localstorage loadProfile', str)
+    //console.log('localstorage loadProfile', str)
     if (str !== null) {
       return JSON.parse(str)
     } else {
@@ -15,7 +15,7 @@ const localstorage = {
     }
   },
   saveProfile: function (profile) {
-    console.log('localstorage saveProfile', profile)
+    //console.log('localstorage saveProfile', profile)
     myStorage.setItem(KEY, JSON.stringify(profile))
   },
   deleteProfile: function() {

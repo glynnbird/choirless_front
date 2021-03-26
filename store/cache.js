@@ -1,7 +1,8 @@
 export const state = () => ({
   choirList: null,
   currentChoir: null,
-  currentChoirSongs: null
+  currentChoirSongs: null,
+  currentSong: null
 })
 
 export const mutations = {
@@ -19,5 +20,9 @@ export const mutations = {
   },
   setCurrentChoirSongs(state, songs) {
    state.currentChoirSongs = songs
+  },
+
+  setCurrentSong (state, song) {
+    state.currentSong = song
   }
 }

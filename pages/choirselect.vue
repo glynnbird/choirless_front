@@ -14,6 +14,10 @@ import util from "~/assets/js/util"
 export default {
   async asyncData ({store}) {
     //try {
+      // when selecting a new choir, clear any previous selections
+      store.commit('cache/setCurrentChoir', null)
+      store.commit('cache/setCurrentSong', null)
+
       if (store.state.cache.choirList !== null) {
         console.log("Getting data from cache!")
         return {choirList: store.state.cache.choirList}

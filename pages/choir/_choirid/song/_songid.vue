@@ -1,10 +1,18 @@
 <template>
   <v-card>
-    <h3>hello world!</h3>
     <v-list-item two-line v-for="part in partsList" :key="part.partId">
       <v-list-item-subtitle>{{ part.partName }} </v-list-item-subtitle>
       <v-list-item-subtitle>{{ part.userName }} </v-list-item-subtitle>
     </v-list-item>
+    <v-card-actions>
+      <v-btn
+        text
+        nuxt
+        to="/record"
+      >
+        Record
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -19,39 +27,28 @@ export default {
     console.log("song id is ", route.params.songid)
 
     try {
-      //first check that choir page we are on  matches  the cache
-/*      if (store.state.cache.currentChoir !== null && 
-          store.state.cache.currentChoir.choirId == route.params.id) {
-        if (store.state.cache.currentChoirSongs !== null) {
-          console.log("Getting data from cache!")
-          return {songList: store.state.cache.currentChoirSongs}
-        }
-      } */
-
       // if we get here, then we need to load the choir and its songs
-
       console.log("Getting choir details")
-     
-      //let response = await util.executeLambda (store, "getChoir", {choirId:route.params.id})
+      let response
+      if (store.state.cache.currentChoir === null || store.state.cache.currentChoir.choirId !== route.params.choirid) {    
+        response = await util.executeLambda (store, "getChoir", {choirId:route.params.choirid})
 
-      //save the choirList to the cache
-      //store.commit('cache/setCurrentChoir', response.choir)
+        //save the choirList to the cache
+        store.commit('cache/setCurrentChoir', response.choir)
+      }
  
-      console.log("getting list of choir songs");
 
-      // let's do some lambda to get the list of choirs
-      //response = await util.executeLambda (store, "getChoirSong", {choirId:route.params.id, songId: route.params.songid})
+      // let's do some lambda to get the current song
+      if (store.state.cache.currentSong === null || store.state.cache.currentSong.songId !== route.params.songid) {
+        response = await util.executeLambda (store, "getChoirSong", {choirId:route.params.choirid, songId: route.params.songid})
 
-      //save the Songs to the cache
-      //store.commit('cache/setCurrentChoirSongs', response.songs)
-      
+        //save the song to the cache
+        console.log('getChoirSong response', response)
+        store.commit('cache/setCurrentSong', response.song)
+      }
+
       // let's do some lambda to get the list of song parts
-      let response = await util.executeLambda (store, "getChoirSongParts", {choirId:route.params.choirid, songId:route.params.songid})
-      console.log(response.parts)
-
-      //save the song parts to the cache
-      //store.commit('cache/setCurrentChoirSongParts', response.songParts)
-      
+      response = await util.executeLambda (store, "getChoirSongParts", {choirId:route.params.choirid, songId:route.params.songid})
       return { partsList: response.parts }
      
     } catch (error) {
